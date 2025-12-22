@@ -1,6 +1,6 @@
 # Security group for EKS nodes
-# checkov:skip=CKV2_AWS_5:Security group attached in external module
 resource "aws_security_group" "eks_nodes" {
+  # checkov:skip=CKV2_AWS_5:Security group attached in external module
   name_prefix = "${var.vpc_name}-eks-nodes-"
   description = "Security group for EKS worker nodes"
   vpc_id      = module.vpc.vpc_id
@@ -67,8 +67,8 @@ resource "aws_vpc_security_group_egress_rule" "eks_nodes_egress" {
 }
 
 # Security group for EKS control plane
-# checkov:skip=CKV2_AWS_5:Security group attached in external module
 resource "aws_security_group" "eks_control_plane" {
+  # checkov:skip=CKV2_AWS_5:Security group attached in external module
   name_prefix = "${var.vpc_name}-eks-control-plane-"
   description = "Security group for EKS control plane"
   vpc_id      = module.vpc.vpc_id
@@ -120,8 +120,8 @@ resource "aws_vpc_security_group_egress_rule" "control_plane_to_nodes" {
 }
 
 # Security group for VPC endpoints
-# checkov:skip=CKV2_AWS_5:Security group attached in external module
 resource "aws_security_group" "vpc_endpoints" {
+  # checkov:skip=CKV2_AWS_5:Security group attached in external module
   count = var.enable_vpc_endpoints ? 1 : 0
 
   name_prefix = "${var.vpc_name}-vpc-endpoints-"
@@ -177,8 +177,8 @@ resource "aws_vpc_security_group_egress_rule" "vpc_endpoints_egress" {
 }
 
 # Security group for Istio service mesh (optional)
-# checkov:skip=CKV2_AWS_5:Security group attached in external module
 resource "aws_security_group" "istio" {
+  # checkov:skip=CKV2_AWS_5:Security group attached in external module
   count = var.enable_istio_support ? 1 : 0
 
   name_prefix = "${var.vpc_name}-istio-"

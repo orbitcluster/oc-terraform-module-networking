@@ -26,9 +26,9 @@ module "networking" {
 }
 
 # Example EKS module integration
-# checkov:skip=CKV_TF_1:Example usage
-# checkov:skip=CKV_TF_2:Example usage
 module "eks" {
+  # checkov:skip=CKV_TF_1:Example usage
+  # checkov:skip=CKV_TF_2:Example usage
   source = "github.com/orbitcluster/oc-terraform-module-eks"
 
   cluster_name        = "simple-cluster"
