@@ -1,4 +1,4 @@
-# Network Load Balancer (optional)
+# checkov:skip=CKV_AWS_91:Access logging is optional and configurable via variables
 resource "aws_lb" "network" {
   count = var.enable_network_load_balancer ? 1 : 0
 
@@ -10,6 +10,15 @@ resource "aws_lb" "network" {
 
   enable_deletion_protection       = var.nlb_deletion_protection
   enable_cross_zone_load_balancing = true
+
+  dynamic "access_logs" {
+    for_each = var.nlb_access_logs_bucket_name != null ? [1] : []
+    content {
+      bucket  = var.nlb_access_logs_bucket_name
+      prefix  = var.nlb_access_logs_prefix
+      enabled = true
+    }
+  }
 
   tags = merge(
     local.common_tags,

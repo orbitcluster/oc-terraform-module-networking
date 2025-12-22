@@ -136,6 +136,18 @@ variable "nlb_deletion_protection" {
   default     = false
 }
 
+variable "nlb_access_logs_bucket_name" {
+  description = "S3 bucket name for NLB access logs. If null, logging is disabled"
+  type        = string
+  default     = null
+}
+
+variable "nlb_access_logs_prefix" {
+  description = "S3 prefix for NLB access logs"
+  type        = string
+  default     = null
+}
+
 variable "enable_istio_support" {
   description = "Configure security groups for Istio service mesh"
   type        = bool

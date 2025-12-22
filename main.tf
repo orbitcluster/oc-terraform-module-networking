@@ -22,10 +22,10 @@ module "vpc" {
   enable_vpn_gateway = var.enable_vpn_gateway
 
   # VPC Flow Logs
-  enable_flow_log                      = var.enable_flow_logs
-  create_flow_log_cloudwatch_iam_role  = var.enable_flow_logs
-  create_flow_log_cloudwatch_log_group = var.enable_flow_logs
-  flow_log_retention_in_days           = var.flow_logs_retention_days
+  enable_flow_log                                 = var.enable_flow_logs
+  create_flow_log_cloudwatch_iam_role             = var.enable_flow_logs
+  create_flow_log_cloudwatch_log_group            = var.enable_flow_logs
+  flow_log_cloudwatch_log_group_retention_in_days = var.flow_logs_retention_days
 
   # Subnet tagging for EKS
   public_subnet_tags  = local.public_subnet_tags
