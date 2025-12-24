@@ -16,9 +16,10 @@ provider "aws" {
 module "networking" {
   source = "../.."
 
-  vpc_name     = "simple-eks-vpc"
   cluster_name = "simple-cluster"
   env          = "dev"
+  bu_id        = "simple"
+  app_id       = "app"
 
   tags = {
     Project = "SimpleExample"

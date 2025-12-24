@@ -40,8 +40,11 @@ module "networking" {
   # Required Parameters
   # ===================================
 
-  # Name prefix for all VPC resources
-  vpc_name = "production-eks-vpc"
+  # Business Unit ID
+  bu_id = "marketing"
+
+  # Application ID
+  app_id = "ecommerce"
 
   # EKS cluster name - used for subnet tagging and auto-discovery
   cluster_name = "production-cluster"
@@ -217,7 +220,8 @@ This module is designed to work seamlessly with the `oc-terraform-module-eks` mo
 module "networking" {
   source = "github.com/orbitcluster/oc-terraform-module-networking"
 
-  vpc_name     = "my-vpc"
+  bu_id        = "finance"
+  app_id       = "payments"
   cluster_name = "my-cluster"
   env          = "prod"
 }

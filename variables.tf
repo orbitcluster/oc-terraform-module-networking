@@ -1,7 +1,20 @@
-variable "vpc_name" {
-  description = "Name prefix for VPC resources"
+
+################ORG INFO##########################
+variable "bu_id" {
+  description = "Business Unit"
   type        = string
+  default     = null
 }
+
+
+variable "app_id" {
+  description = "application Unit"
+  type        = string
+  default     = null
+}
+
+####################################################
+# VPC INFO#
 
 variable "vpc_cidr" {
   description = "CIDR block for VPC"
@@ -71,6 +84,8 @@ variable "env" {
   }
 }
 
+
+
 variable "enable_vpn_gateway" {
   description = "Enable VPN Gateway"
   type        = bool
@@ -133,7 +148,7 @@ variable "nlb_subnet_ids" {
 variable "nlb_deletion_protection" {
   description = "Enable deletion protection for Network Load Balancer"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "nlb_access_logs_bucket_name" {
@@ -152,6 +167,42 @@ variable "enable_istio_support" {
   description = "Configure security groups for Istio service mesh"
   type        = bool
   default     = false
+}
+
+variable "enable_alb" {
+  description = "Create Application Load Balancer"
+  type        = bool
+  default     = false
+}
+
+variable "alb_subnet_ids" {
+  description = "Subnet IDs for ALB. If not specified, uses public subnets"
+  type        = list(string)
+  default     = []
+}
+
+variable "alb_deletion_protection" {
+  description = "Enable deletion protection for ALB"
+  type        = bool
+  default     = true
+}
+
+variable "alb_access_logs_bucket_name" {
+  description = "S3 bucket name for ALB access logs. If null, logging is disabled"
+  type        = string
+  default     = null
+}
+
+variable "alb_access_logs_prefix" {
+  description = "S3 prefix for ALB access logs"
+  type        = string
+  default     = null
+}
+
+variable "alb_ingress_cidr_blocks" {
+  description = "List of CIDR blocks to allow ingress to ALB (HTTP/HTTPS)"
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
 }
 
 variable "tags" {

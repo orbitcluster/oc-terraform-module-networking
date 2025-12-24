@@ -1,14 +1,14 @@
 # Security group for EKS nodes
 resource "aws_security_group" "eks_nodes" {
   # checkov:skip=CKV2_AWS_5:Security group attached in external module
-  name_prefix = "${var.vpc_name}-eks-nodes-"
+  name_prefix = "${var.bu_id}-eks-nodes-sg-${var.app_id}-"
   description = "Security group for EKS worker nodes"
   vpc_id      = module.vpc.vpc_id
 
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.vpc_name}-eks-nodes"
+      Name = "${var.bu_id}-eks-nodes-sg-${var.app_id}"
     }
   )
 
@@ -27,7 +27,7 @@ resource "aws_vpc_security_group_ingress_rule" "eks_nodes_vpc_ingress" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.vpc_name}-eks-nodes-vpc-ingress"
+      Name = "${var.bu_id}-eks-nodes-vpc-ingress-sg-${var.app_id}"
     }
   )
 }
@@ -46,7 +46,7 @@ resource "aws_vpc_security_group_ingress_rule" "eks_nodes_nlb_ingress" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.vpc_name}-eks-nodes-nlb-ingress"
+      Name = "${var.bu_id}-eks-nodes-nlb-ingress-sg-${var.app_id}"
     }
   )
 }
@@ -61,7 +61,7 @@ resource "aws_vpc_security_group_egress_rule" "eks_nodes_egress" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.vpc_name}-eks-nodes-egress"
+      Name = "${var.bu_id}-eks-nodes-egress-sg-${var.app_id}"
     }
   )
 }
@@ -69,14 +69,14 @@ resource "aws_vpc_security_group_egress_rule" "eks_nodes_egress" {
 # Security group for EKS control plane
 resource "aws_security_group" "eks_control_plane" {
   # checkov:skip=CKV2_AWS_5:Security group attached in external module
-  name_prefix = "${var.vpc_name}-eks-control-plane-"
+  name_prefix = "${var.bu_id}-eks-control-plane-sg-${var.app_id}-"
   description = "Security group for EKS control plane"
   vpc_id      = module.vpc.vpc_id
 
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.vpc_name}-eks-control-plane"
+      Name = "${var.bu_id}-eks-control-plane-sg-${var.app_id}"
     }
   )
 
@@ -97,7 +97,7 @@ resource "aws_vpc_security_group_ingress_rule" "control_plane_from_nodes" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.vpc_name}-control-plane-from-nodes"
+      Name = "${var.bu_id}-control-plane-from-nodes-sg-${var.app_id}"
     }
   )
 }
@@ -114,7 +114,7 @@ resource "aws_vpc_security_group_egress_rule" "control_plane_to_nodes" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.vpc_name}-control-plane-to-nodes"
+      Name = "${var.bu_id}-control-plane-to-nodes-sg-${var.app_id}"
     }
   )
 }
@@ -124,14 +124,14 @@ resource "aws_security_group" "vpc_endpoints" {
   # checkov:skip=CKV2_AWS_5:Security group attached in external module
   count = var.enable_vpc_endpoints ? 1 : 0
 
-  name_prefix = "${var.vpc_name}-vpc-endpoints-"
+  name_prefix = "${var.bu_id}-vpc-endpoints-sg-${var.app_id}-"
   description = "Security group for VPC endpoints"
   vpc_id      = module.vpc.vpc_id
 
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.vpc_name}-vpc-endpoints"
+      Name = "${var.bu_id}-vpc-endpoints-sg-${var.app_id}"
     }
   )
 
@@ -154,7 +154,7 @@ resource "aws_vpc_security_group_ingress_rule" "vpc_endpoints_https" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.vpc_name}-vpc-endpoints-https"
+      Name = "${var.bu_id}-vpc-endpoints-https-sg-${var.app_id}"
     }
   )
 }
@@ -171,7 +171,7 @@ resource "aws_vpc_security_group_egress_rule" "vpc_endpoints_egress" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.vpc_name}-vpc-endpoints-egress"
+      Name = "${var.bu_id}-vpc-endpoints-egress-sg-${var.app_id}"
     }
   )
 }
@@ -181,14 +181,14 @@ resource "aws_security_group" "istio" {
   # checkov:skip=CKV2_AWS_5:Security group attached in external module
   count = var.enable_istio_support ? 1 : 0
 
-  name_prefix = "${var.vpc_name}-istio-"
+  name_prefix = "${var.bu_id}-istio-sg-${var.app_id}-"
   description = "Security group for Istio service mesh"
   vpc_id      = module.vpc.vpc_id
 
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.vpc_name}-istio"
+      Name = "${var.bu_id}-istio-sg-${var.app_id}"
     }
   )
 
@@ -211,7 +211,7 @@ resource "aws_vpc_security_group_ingress_rule" "istio_pilot" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.vpc_name}-istio-pilot"
+      Name = "${var.bu_id}-istio-pilot-sg-${var.app_id}"
     }
   )
 }
@@ -230,7 +230,7 @@ resource "aws_vpc_security_group_ingress_rule" "istio_ingress" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.vpc_name}-istio-ingress"
+      Name = "${var.bu_id}-istio-ingress-sg-${var.app_id}"
     }
   )
 }
@@ -249,7 +249,7 @@ resource "aws_vpc_security_group_ingress_rule" "istio_https" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.vpc_name}-istio-https"
+      Name = "${var.bu_id}-istio-https-sg-${var.app_id}"
     }
   )
 }
@@ -266,7 +266,84 @@ resource "aws_vpc_security_group_egress_rule" "istio_egress" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.vpc_name}-istio-egress"
+      Name = "${var.bu_id}-istio-egress-sg-${var.app_id}"
+    }
+  )
+}
+
+# Security group for Application Load Balancer
+resource "aws_security_group" "alb" {
+  # checkov:skip=CKV2_AWS_5:Security group attached in external module
+  count = var.enable_alb ? 1 : 0
+
+  name_prefix = "${var.bu_id}-alb-sg-${var.app_id}-"
+  description = "Security group for Application Load Balancer"
+  vpc_id      = module.vpc.vpc_id
+
+  tags = merge(
+    local.common_tags,
+    {
+      Name = "${var.bu_id}-alb-sg-${var.app_id}"
+    }
+  )
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+# Allow HTTP ingress for ALB
+# checkov:skip=CKV_AWS_260:Public access required for ALB
+resource "aws_vpc_security_group_ingress_rule" "alb_http" {
+  count = var.enable_alb ? 1 : 0
+
+  security_group_id = aws_security_group.alb[0].id
+  description       = "Allow HTTP from allowed CIDRs"
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 80
+  to_port           = 80
+  ip_protocol       = "tcp"
+
+  tags = merge(
+    local.common_tags,
+    {
+      Name = "${var.bu_id}-alb-http-sg-${var.app_id}"
+    }
+  )
+}
+
+# Allow HTTPS ingress for ALB
+resource "aws_vpc_security_group_ingress_rule" "alb_https" {
+  count = var.enable_alb ? 1 : 0
+
+  security_group_id = aws_security_group.alb[0].id
+  description       = "Allow HTTPS from allowed CIDRs"
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 443
+  to_port           = 443
+  ip_protocol       = "tcp"
+
+  tags = merge(
+    local.common_tags,
+    {
+      Name = "${var.bu_id}-alb-https-sg-${var.app_id}"
+    }
+  )
+}
+
+# Allow all egress for ALB
+resource "aws_vpc_security_group_egress_rule" "alb_egress" {
+  count = var.enable_alb ? 1 : 0
+
+  security_group_id = aws_security_group.alb[0].id
+  description       = "Allow all outbound traffic"
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = "-1"
+
+  tags = merge(
+    local.common_tags,
+    {
+      Name = "${var.bu_id}-alb-egress-sg-${var.app_id}"
     }
   )
 }

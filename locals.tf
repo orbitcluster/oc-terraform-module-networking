@@ -18,8 +18,8 @@ locals {
     var.tags,
     {
       Environment = var.env
-      ManagedBy   = "Terraform"
-      Module      = "oc-terraform-module-networking"
+      bu_id       = var.bu_id
+      app_id      = var.app_id
     }
   )
 

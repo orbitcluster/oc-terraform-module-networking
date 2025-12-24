@@ -3,7 +3,7 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "~> 5.0"
 
-  name = var.vpc_name
+  name = "${var.bu_id}-vpc-${var.app_id}"
   cidr = var.vpc_cidr
 
   azs             = local.azs
@@ -36,6 +36,6 @@ module "vpc" {
 
   # VPC tags
   vpc_tags = {
-    Name = var.vpc_name
+    Name = "${var.bu_id}-vpc-${var.app_id}"
   }
 }
