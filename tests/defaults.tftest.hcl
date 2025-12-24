@@ -1,7 +1,9 @@
 variables {
-  vpc_name     = "test-vpc"
+
   cluster_name = "test-cluster"
   env          = "test"
+  bu_id        = "test"
+  app_id       = "app"
   vpc_cidr     = "10.0.0.0/16"
   azs          = ["us-east-1a", "us-east-1b"]
 }
@@ -10,7 +12,7 @@ run "defaults" {
   command = plan
 
   assert {
-    condition     = module.vpc.name == "test-vpc"
+    condition     = module.vpc.name == "test-vpc-app"
     error_message = "VPC name did not match expected value"
   }
 

@@ -136,3 +136,24 @@ output "igw_id" {
   description = "Internet Gateway ID"
   value       = module.vpc.igw_id
 }
+
+# Application Load Balancer outputs
+output "alb_arn" {
+  description = "Application Load Balancer ARN (if created)"
+  value       = var.enable_alb ? aws_lb.application[0].arn : null
+}
+
+output "alb_dns_name" {
+  description = "Application Load Balancer DNS name (if created)"
+  value       = var.enable_alb ? aws_lb.application[0].dns_name : null
+}
+
+output "alb_zone_id" {
+  description = "Application Load Balancer hosted zone ID (if created)"
+  value       = var.enable_alb ? aws_lb.application[0].zone_id : null
+}
+
+output "alb_security_group_id" {
+  description = "Security group ID for ALB (if created)"
+  value       = var.enable_alb ? aws_security_group.alb[0].id : null
+}

@@ -16,10 +16,11 @@ provider "aws" {
 module "networking" {
   source = "../.."
 
-  vpc_name     = "example-complete-vpc"
   vpc_cidr     = "10.0.0.0/16"
   cluster_name = "example-complete-cluster"
   env          = "prod"
+  bu_id        = "comp"
+  app_id       = "lete"
 
   # Customize AZs and subnets
   azs             = ["us-east-1a", "us-east-1b", "us-east-1c"]
@@ -50,6 +51,10 @@ module "networking" {
 
   enable_network_load_balancer = true
   nlb_deletion_protection      = true
+
+  enable_alb                  = true
+  alb_deletion_protection     = false
+  alb_ingress_cidr_blocks     = ["0.0.0.0/0"]
 
   enable_istio_support = true
 
@@ -96,4 +101,8 @@ output "nlb_dns_name" {
 
 output "vpc_endpoints" {
   value = module.networking.vpc_endpoints
+}
+
+output "alb_dns_name" {
+  value = module.networking.alb_dns_name
 }

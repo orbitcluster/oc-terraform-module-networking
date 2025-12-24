@@ -16,9 +16,11 @@ provider "aws" {
 module "networking" {
   source = "../.."
 
-  vpc_name     = "cost-optimized-vpc"
+
   cluster_name = "dev-cluster"
   env          = "dev"
+  bu_id        = "cost"
+  app_id       = "optim"
 
   # Single NAT gateway to reduce costs
   enable_nat_gateway = true
