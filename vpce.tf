@@ -79,7 +79,7 @@ resource "aws_vpc_endpoint" "interface" {
   for_each = var.enable_vpc_endpoints ? local.interface_endpoints : {}
 
   vpc_id              = module.vpc.vpc_id
-  service_name        = "com.amazonaws.${data.aws_region.current.name}.${each.value.service}"
+  service_name        = "com.amazonaws.${data.aws_region.current.id}.${each.value.service}"
   vpc_endpoint_type   = "Interface"
   private_dns_enabled = each.value.private_dns_enabled
 
@@ -89,7 +89,7 @@ resource "aws_vpc_endpoint" "interface" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-${each.key}-endpoint-${var.app_id}"
+      Name = "${var.bu_id}-${var.app_id}-${each.key}-endpoint"
     }
   )
 }
@@ -99,7 +99,7 @@ resource "aws_vpc_endpoint" "gateway" {
   for_each = var.enable_vpc_endpoints ? local.gateway_endpoints : {}
 
   vpc_id            = module.vpc.vpc_id
-  service_name      = "com.amazonaws.${data.aws_region.current.name}.${each.value.service}"
+  service_name      = "com.amazonaws.${data.aws_region.current.id}.${each.value.service}"
   vpc_endpoint_type = "Gateway"
 
   route_table_ids = concat(
@@ -110,7 +110,7 @@ resource "aws_vpc_endpoint" "gateway" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-${each.key}-endpoint-${var.app_id}"
+      Name = "${var.bu_id}-${var.app_id}-${each.key}-endpoint"
     }
   )
 }

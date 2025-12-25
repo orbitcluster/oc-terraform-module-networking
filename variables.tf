@@ -69,10 +69,6 @@ variable "enable_dns_support" {
   default     = true
 }
 
-variable "cluster_name" {
-  description = "EKS cluster name for resource tagging and discovery"
-  type        = string
-}
 
 variable "env" {
   description = "Environment name (dev, staging, prod)"
@@ -195,6 +191,24 @@ variable "alb_access_logs_bucket_name" {
 
 variable "alb_access_logs_prefix" {
   description = "S3 prefix for ALB access logs"
+  type        = string
+  default     = null
+}
+
+variable "alb_http_enabled" {
+  description = "Enable HTTP listener for ALB"
+  type        = bool
+  default     = true
+}
+
+variable "alb_https_enabled" {
+  description = "Enable HTTPS listener for ALB"
+  type        = bool
+  default     = true
+}
+
+variable "alb_certificate_arn" {
+  description = "ARN of ACM certificate for HTTPS listener"
   type        = string
   default     = null
 }

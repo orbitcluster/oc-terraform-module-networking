@@ -1,9 +1,9 @@
 module "vpc" {
   # checkov:skip=CKV_TF_1:Using version tags for modules
   source  = "terraform-aws-modules/vpc/aws"
-  version = "~> 5.0"
+  version = "~> 5.5.0"
 
-  name = "${var.bu_id}-vpc-${var.app_id}"
+  name = "${var.bu_id}-${var.app_id}-vpc"
   cidr = var.vpc_cidr
 
   azs             = local.azs
@@ -35,7 +35,7 @@ module "vpc" {
   tags = local.common_tags
 
   # VPC tags
-  vpc_tags = {
-    Name = "${var.bu_id}-vpc-${var.app_id}"
-  }
+  vpc_tags = merge(local.common_tags, {
+    Name = "${var.bu_id}-${var.app_id}-vpc"
+  })
 }

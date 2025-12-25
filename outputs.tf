@@ -3,7 +3,6 @@ output "vpc_id" {
   description = "VPC ID for EKS module"
   value       = module.vpc.vpc_id
 }
-
 output "vpc_cidr" {
   description = "VPC CIDR block"
   value       = module.vpc.vpc_cidr_block
@@ -12,6 +11,13 @@ output "vpc_cidr" {
 output "vpc_arn" {
   description = "ARN of the VPC"
   value       = module.vpc.vpc_arn
+}
+
+output "vpc_tags" {
+  description = "Tags applied to the VPC"
+  value = merge(local.common_tags, {
+    Name = "${var.bu_id}-${var.app_id}-vpc"
+  })
 }
 
 # Subnet outputs
