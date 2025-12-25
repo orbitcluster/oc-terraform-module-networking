@@ -20,7 +20,7 @@ run "vpc_defaults" {
   }
 
   assert {
-    condition     = module.vpc.vpc_tags["Name"] == "BU12345-APP67890-vpc"
+    condition     = output.vpc_tags["Name"] == "BU12345-APP67890-vpc"
     error_message = "VPC Name tag is incorrect"
   }
 

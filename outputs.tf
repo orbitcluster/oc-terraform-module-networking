@@ -26,6 +26,16 @@ output "private_subnet_ids" {
   value       = module.vpc.private_subnets
 }
 
+output "public_subnet_ids" {
+  description = "List of public subnet IDs (for load balancers)"
+  value       = module.vpc.public_subnets
+}
+
+output "all_subnet_ids" {
+  description = "Combined list of all subnet IDs"
+  value       = concat(module.vpc.private_subnets, module.vpc.public_subnets)
+}
+
 output "private_subnet_cidrs" {
   description = "List of private subnet CIDR blocks"
   value       = module.vpc.private_subnets_cidr_blocks
