@@ -1,14 +1,14 @@
 # Security group for EKS nodes
 resource "aws_security_group" "eks_nodes" {
   # checkov:skip=CKV2_AWS_5:Security group attached in external module
-  name_prefix = "${var.bu_id}-eks-nodes-sg-${var.app_id}-"
+  name_prefix = "${var.bu_id}-${var.app_id}-eks-nodes-sg-"
   description = "Security group for EKS worker nodes"
   vpc_id      = module.vpc.vpc_id
 
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-eks-nodes-sg-${var.app_id}"
+      Name = "${var.bu_id}-${var.app_id}-eks-nodes-sg"
     }
   )
 
@@ -27,7 +27,7 @@ resource "aws_vpc_security_group_ingress_rule" "eks_nodes_vpc_ingress" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-eks-nodes-vpc-ingress-sg-${var.app_id}"
+      Name = "${var.bu_id}-${var.app_id}-eks-nodes-vpc-ingress-sg"
     }
   )
 }
@@ -46,7 +46,7 @@ resource "aws_vpc_security_group_ingress_rule" "eks_nodes_nlb_ingress" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-eks-nodes-nlb-ingress-sg-${var.app_id}"
+      Name = "${var.bu_id}-${var.app_id}-eks-nodes-nlb-ingress-sg"
     }
   )
 }
@@ -61,7 +61,7 @@ resource "aws_vpc_security_group_egress_rule" "eks_nodes_egress" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-eks-nodes-egress-sg-${var.app_id}"
+      Name = "${var.bu_id}-${var.app_id}-eks-nodes-egress-sg"
     }
   )
 }
@@ -69,14 +69,14 @@ resource "aws_vpc_security_group_egress_rule" "eks_nodes_egress" {
 # Security group for EKS control plane
 resource "aws_security_group" "eks_control_plane" {
   # checkov:skip=CKV2_AWS_5:Security group attached in external module
-  name_prefix = "${var.bu_id}-eks-control-plane-sg-${var.app_id}-"
+  name_prefix = "${var.bu_id}-${var.app_id}-eks-control-plane-sg-"
   description = "Security group for EKS control plane"
   vpc_id      = module.vpc.vpc_id
 
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-eks-control-plane-sg-${var.app_id}"
+      Name = "${var.bu_id}-${var.app_id}-eks-control-plane-sg"
     }
   )
 
@@ -97,7 +97,7 @@ resource "aws_vpc_security_group_ingress_rule" "control_plane_from_nodes" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-control-plane-from-nodes-sg-${var.app_id}"
+      Name = "${var.bu_id}-${var.app_id}-control-plane-from-nodes-sg"
     }
   )
 }
@@ -114,7 +114,7 @@ resource "aws_vpc_security_group_egress_rule" "control_plane_to_nodes" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-control-plane-to-nodes-sg-${var.app_id}"
+      Name = "${var.bu_id}-${var.app_id}-control-plane-to-nodes-sg"
     }
   )
 }
@@ -124,14 +124,14 @@ resource "aws_security_group" "vpc_endpoints" {
   # checkov:skip=CKV2_AWS_5:Security group attached in external module
   count = var.enable_vpc_endpoints ? 1 : 0
 
-  name_prefix = "${var.bu_id}-vpc-endpoints-sg-${var.app_id}-"
+  name_prefix = "${var.bu_id}-${var.app_id}-vpc-endpoints-sg-"
   description = "Security group for VPC endpoints"
   vpc_id      = module.vpc.vpc_id
 
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-vpc-endpoints-sg-${var.app_id}"
+      Name = "${var.bu_id}-${var.app_id}-vpc-endpoints-sg"
     }
   )
 
@@ -154,7 +154,7 @@ resource "aws_vpc_security_group_ingress_rule" "vpc_endpoints_https" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-vpc-endpoints-https-sg-${var.app_id}"
+      Name = "${var.bu_id}-${var.app_id}-vpc-endpoints-https-sg"
     }
   )
 }
@@ -171,7 +171,7 @@ resource "aws_vpc_security_group_egress_rule" "vpc_endpoints_egress" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-vpc-endpoints-egress-sg-${var.app_id}"
+      Name = "${var.bu_id}-${var.app_id}-vpc-endpoints-egress-sg"
     }
   )
 }
@@ -181,14 +181,14 @@ resource "aws_security_group" "istio" {
   # checkov:skip=CKV2_AWS_5:Security group attached in external module
   count = var.enable_istio_support ? 1 : 0
 
-  name_prefix = "${var.bu_id}-istio-sg-${var.app_id}-"
+  name_prefix = "${var.bu_id}-${var.app_id}-istio-sg-"
   description = "Security group for Istio service mesh"
   vpc_id      = module.vpc.vpc_id
 
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-istio-sg-${var.app_id}"
+      Name = "${var.bu_id}-${var.app_id}-istio-sg"
     }
   )
 
@@ -211,7 +211,7 @@ resource "aws_vpc_security_group_ingress_rule" "istio_pilot" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-istio-pilot-sg-${var.app_id}"
+      Name = "${var.bu_id}-${var.app_id}-istio-pilot-sg"
     }
   )
 }
@@ -230,7 +230,7 @@ resource "aws_vpc_security_group_ingress_rule" "istio_ingress" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-istio-ingress-sg-${var.app_id}"
+      Name = "${var.bu_id}-${var.app_id}-istio-ingress-sg"
     }
   )
 }
@@ -249,7 +249,7 @@ resource "aws_vpc_security_group_ingress_rule" "istio_https" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-istio-https-sg-${var.app_id}"
+      Name = "${var.bu_id}-${var.app_id}-istio-https-sg"
     }
   )
 }
@@ -266,7 +266,7 @@ resource "aws_vpc_security_group_egress_rule" "istio_egress" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-istio-egress-sg-${var.app_id}"
+      Name = "${var.bu_id}-${var.app_id}-istio-egress-sg"
     }
   )
 }
@@ -276,14 +276,14 @@ resource "aws_security_group" "alb" {
   # checkov:skip=CKV2_AWS_5:Security group attached in external module
   count = var.enable_alb ? 1 : 0
 
-  name_prefix = "${var.bu_id}-alb-sg-${var.app_id}-"
+  name_prefix = "${var.bu_id}-${var.app_id}-alb-sg-"
   description = "Security group for Application Load Balancer"
   vpc_id      = module.vpc.vpc_id
 
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-alb-sg-${var.app_id}"
+      Name = "${var.bu_id}-${var.app_id}-alb-sg"
     }
   )
 
@@ -307,7 +307,7 @@ resource "aws_vpc_security_group_ingress_rule" "alb_http" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-alb-http-sg-${var.app_id}"
+      Name = "${var.bu_id}-${var.app_id}-alb-http-sg"
     }
   )
 }
@@ -326,7 +326,7 @@ resource "aws_vpc_security_group_ingress_rule" "alb_https" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-alb-https-sg-${var.app_id}"
+      Name = "${var.bu_id}-${var.app_id}-alb-https-sg"
     }
   )
 }
@@ -343,7 +343,7 @@ resource "aws_vpc_security_group_egress_rule" "alb_egress" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-alb-egress-sg-${var.app_id}"
+      Name = "${var.bu_id}-${var.app_id}-alb-egress-sg"
     }
   )
 }

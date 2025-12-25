@@ -69,10 +69,6 @@ variable "enable_dns_support" {
   default     = true
 }
 
-variable "cluster_name" {
-  description = "EKS cluster name for resource tagging and discovery"
-  type        = string
-}
 
 variable "env" {
   description = "Environment name (dev, staging, prod)"

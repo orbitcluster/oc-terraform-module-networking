@@ -6,7 +6,7 @@
 resource "aws_lb" "application" {
   count = var.enable_alb ? 1 : 0
 
-  name               = "${var.bu_id}-alb-${var.app_id}"
+  name               = "${var.bu_id}-${var.app_id}-alb"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb[0].id]
@@ -27,7 +27,7 @@ resource "aws_lb" "application" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-alb-${var.app_id}"
+      Name = "${var.bu_id}-${var.app_id}-alb"
     }
   )
 }
@@ -37,7 +37,7 @@ resource "aws_lb" "application" {
 resource "aws_lb_target_group" "application" {
   count = var.enable_alb ? 1 : 0
 
-  name     = "${var.bu_id}-alb-tg-${var.app_id}"
+  name     = "${var.bu_id}-${var.app_id}-alb-tg"
   port     = 80
   protocol = "HTTP"
   vpc_id   = module.vpc.vpc_id
@@ -58,7 +58,7 @@ resource "aws_lb_target_group" "application" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-alb-tg-${var.app_id}"
+      Name = "${var.bu_id}-${var.app_id}-alb-tg"
     }
   )
 }
@@ -81,7 +81,7 @@ resource "aws_lb_listener" "application_http" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-alb-http-listener-${var.app_id}"
+      Name = "${var.bu_id}-${var.app_id}-alb-http-listener"
     }
   )
 }

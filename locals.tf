@@ -23,24 +23,15 @@ locals {
     }
   )
 
-  # EKS-specific tags for subnets
-  eks_tags = {
-    "kubernetes.io/cluster/${var.cluster_name}" = "shared"
-  }
+
 
   # Public subnet tags for ELB
-  public_subnet_tags = merge(
-    local.eks_tags,
-    {
+  public_subnet_tags = {
       "kubernetes.io/role/elb" = "1"
     }
-  )
 
   # Private subnet tags for internal ELB
-  private_subnet_tags = merge(
-    local.eks_tags,
-    {
+  private_subnet_tags = {
       "kubernetes.io/role/internal-elb" = "1"
     }
-  )
 }
