@@ -36,5 +36,5 @@ jobs:
       - name: Terraform Init Setup
         run: terraform init
 
-      # - name: Terraform Test
-      #   run: terraform test
+      - name: Terraform Test
+        run: terraform test
