@@ -35,7 +35,7 @@ module "vpc" {
   tags = local.common_tags
 
   # VPC tags
-  vpc_tags = {
+  vpc_tags = merge(local.common_tags, {
     Name = "${var.bu_id}-${var.app_id}-vpc"
-  }
+  })
 }
