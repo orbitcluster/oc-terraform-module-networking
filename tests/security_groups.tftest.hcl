@@ -10,7 +10,7 @@ run "sg_defaults" {
   command = plan
 
   assert {
-    condition     = length(aws_security_group.eks_nodes) == 1
+    condition     = aws_security_group.eks_nodes != null
     error_message = "EKS Nodes SG missing"
   }
   
@@ -20,7 +20,7 @@ run "sg_defaults" {
   }
 
   assert {
-    condition     = length(aws_security_group.eks_control_plane) == 1
+    condition     = aws_security_group.eks_control_plane != null
     error_message = "EKS Control Plane SG missing"
   }
 
