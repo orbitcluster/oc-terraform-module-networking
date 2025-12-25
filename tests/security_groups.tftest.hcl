@@ -13,7 +13,7 @@ run "sg_defaults" {
     condition     = aws_security_group.eks_nodes != null
     error_message = "EKS Nodes SG missing"
   }
-  
+
   assert {
     condition     = startswith(aws_security_group.eks_nodes.name_prefix, "BU12345-APP67890-eks-nodes-sg-")
     error_message = "EKS Nodes SG name prefix mismatch"
@@ -25,7 +25,7 @@ run "sg_defaults" {
   }
 
   assert {
-    condition     = aws_security_group.vpc_endpoints != [] 
+    condition     = aws_security_group.vpc_endpoints != []
     error_message = "VPC Endpoints SG should be created by default"
   }
 }
@@ -41,7 +41,7 @@ run "sg_istio_enabled" {
     condition     = length(aws_security_group.istio) == 1
     error_message = "Istio SG missing when enabled"
   }
-  
+
   assert {
     condition     = startswith(aws_security_group.istio[0].name_prefix, "BU12345-APP67890-istio-sg-")
     error_message = "Istio SG name prefix mismatch"

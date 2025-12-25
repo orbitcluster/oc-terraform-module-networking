@@ -67,7 +67,7 @@ run "auto_subnets" {
     condition     = module.vpc.private_subnets_cidr_blocks[0] == "10.0.0.0/19"
     error_message = "Private Subnet 1 CIDR calculation incorrect"
   }
-  
+
   assert {
     condition     = module.vpc.private_subnets_cidr_blocks[1] == "10.0.32.0/19"
     error_message = "Private Subnet 2 CIDR calculation incorrect"

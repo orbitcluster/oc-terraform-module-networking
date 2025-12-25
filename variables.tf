@@ -195,6 +195,24 @@ variable "alb_access_logs_prefix" {
   default     = null
 }
 
+variable "alb_http_enabled" {
+  description = "Enable HTTP listener for ALB"
+  type        = bool
+  default     = true
+}
+
+variable "alb_https_enabled" {
+  description = "Enable HTTPS listener for ALB"
+  type        = bool
+  default     = true
+}
+
+variable "alb_certificate_arn" {
+  description = "ARN of ACM certificate for HTTPS listener"
+  type        = string
+  default     = null
+}
+
 variable "alb_ingress_cidr_blocks" {
   description = "List of CIDR blocks to allow ingress to ALB (HTTP/HTTPS)"
   type        = list(string)

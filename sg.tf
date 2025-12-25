@@ -295,7 +295,7 @@ resource "aws_security_group" "alb" {
 # Allow HTTP ingress for ALB
 # checkov:skip=CKV_AWS_260:Public access required for ALB
 resource "aws_vpc_security_group_ingress_rule" "alb_http" {
-  count = var.enable_alb ? 1 : 0
+  count = var.enable_alb && var.alb_http_enabled ? 1 : 0
 
   security_group_id = aws_security_group.alb[0].id
   description       = "Allow HTTP from allowed CIDRs"
@@ -314,7 +314,7 @@ resource "aws_vpc_security_group_ingress_rule" "alb_http" {
 
 # Allow HTTPS ingress for ALB
 resource "aws_vpc_security_group_ingress_rule" "alb_https" {
-  count = var.enable_alb ? 1 : 0
+  count = var.enable_alb && var.alb_https_enabled ? 1 : 0
 
   security_group_id = aws_security_group.alb[0].id
   description       = "Allow HTTPS from allowed CIDRs"
