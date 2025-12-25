@@ -1,6 +1,11 @@
 # oc-terraform-module-networking
 
-A comprehensive Terraform module for setting up AWS networking infrastructure required for EKS clusters. This module provides a one-stop solution for VPC, subnets, NAT gateways, security groups, VPC endpoints, and optional Network Load Balancer configuration.
+A comprehensive Terraform module for setting up AWS networking infrastructure required for EKS clusters. This module provides a one-stop solution for VPC, subnets, NAT gateways, security groups, VPC endpoints, and optional Network/Application Load Balancer configuration.
+
+<p align="center">
+  <img src="oc-module-networking-diagram.png" alt="Module Architecture - Networking">
+  <h4 align="center">Module Architecture - Networking</h4>
+</p>
 
 ## Features
 
@@ -11,6 +16,7 @@ A comprehensive Terraform module for setting up AWS networking infrastructure re
 - 🔐 **Security Groups** - Pre-configured for EKS nodes, control plane, and VPC endpoints
 - 🔌 **VPC Endpoints** - Interface and gateway endpoints for AWS services (SSM, KMS, ECR, S3, etc.)
 - ⚖️ **Network Load Balancer** - Optional NLB for external access
+- ⚖️ **Application Load Balancer** - Optional ALB with HTTP/HTTPS support
 - 🕸️ **Service Mesh Ready** - Optional Istio security group configuration
 - 📊 **VPC Flow Logs** - Optional CloudWatch logging for network traffic analysis
 - 🏷️ **EKS Auto-Discovery** - Proper subnet tagging for automatic EKS integration
@@ -27,6 +33,78 @@ This module implements the following AWS networking architecture:
 - **VPC Endpoints** to reduce NAT costs and improve security
 - **Security Groups** for nodes, control plane, and VPC endpoints
 - **Optional Network Load Balancer** for TCP 443 traffic
+- **Optional Application Load Balancer** for HTTP/HTTPS traffic
+
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+| :--- | :--- | :--- | :--- | :--- |
+| `bu_id` | Business Unit | `string` | `null` | **yes** |
+| `app_id` | Application Unit | `string` | `null` | **yes** |
+| `env` | Environment name (dev, staging, prod) | `string` | n/a | **yes** |
+| `vpc_cidr` | CIDR block for VPC | `string` | `"10.0.0.0/16"` | no |
+| `azs` | Availability zones | `list(string)` | `[]` | no |
+| `private_subnets` | Private subnet CIDRs | `list(string)` | `[]` | no |
+| `public_subnets` | Public subnet CIDRs | `list(string)` | `[]` | no |
+| `enable_nat_gateway` | Enable NAT Gateway | `bool` | `true` | no |
+| `single_nat_gateway` | Use single NAT Gateway | `bool` | `false` | no |
+| `enable_dns_hostnames` | Enable DNS hostnames | `bool` | `true` | no |
+| `enable_dns_support` | Enable DNS support | `bool` | `true` | no |
+| `enable_vpn_gateway` | Enable VPN Gateway | `bool` | `false` | no |
+| `enable_flow_logs` | Enable VPC Flow Logs | `bool` | `false` | no |
+| `flow_logs_retention_days` | Flow logs retention days | `number` | `7` | no |
+| `enable_vpc_endpoints` | Enable VPC endpoints | `bool` | `true` | no |
+| `vpc_endpoints` | VPC endpoints map | `map(bool)` | `{...}` | no |
+| `enable_network_load_balancer` | Enable NLB | `bool` | `false` | no |
+| `nlb_subnet_ids` | NLB subnet IDs | `list(string)` | `[]` | no |
+| `nlb_deletion_protection` | NLB deletion protection | `bool` | `true` | no |
+| `nlb_access_logs_bucket_name` | NLB logs bucket | `string` | `null` | no |
+| `nlb_access_logs_prefix` | NLB logs prefix | `string` | `null` | no |
+| `enable_alb` | Enable ALB | `bool` | `false` | no |
+| `alb_subnet_ids` | ALB subnet IDs | `list(string)` | `[]` | no |
+| `alb_deletion_protection` | ALB deletion protection | `bool` | `true` | no |
+| `alb_access_logs_bucket_name` | ALB logs bucket | `string` | `null` | no |
+| `alb_access_logs_prefix` | ALB logs prefix | `string` | `null` | no |
+| `alb_http_enabled` | Enable ALB HTTP | `bool` | `true` | no |
+| `alb_https_enabled` | Enable ALB HTTPS | `bool` | `true` | no |
+| `alb_certificate_arn` | ALB Certificate ARN | `string` | `null` | no |
+| `alb_ingress_cidr_blocks` | ALB Ingress CIDRs | `list(string)` | `["0.0.0.0/0"]` | no |
+| `enable_istio_support` | Enable Istio support | `bool` | `false` | no |
+| `tags` | Additional tags | `map(string)` | `{}` | no |
+
+## Outputs
+
+| Name | Description |
+| :--- | :--- |
+| `vpc_id` | VPC ID |
+| `vpc_cidr` | VPC CIDR block |
+| `vpc_arn` | ARN of the VPC |
+| `vpc_tags` | Tags applied to the VPC |
+| `private_subnet_ids` | List of private subnet IDs |
+| `public_subnet_ids` | List of public subnet IDs |
+| `all_subnet_ids` | Combined list of all subnet IDs |
+| `private_subnet_cidrs` | List of private subnet CIDR blocks |
+| `public_subnet_cidrs` | List of public subnet CIDR blocks |
+| `nat_gateway_ids` | NAT Gateway IDs |
+| `nat_gateway_public_ips` | Elastic IPs of NAT Gateways |
+| `azs` | Availability zones used |
+| `node_security_group_id` | Security group ID for EKS nodes |
+| `control_plane_security_group_id` | Security group ID for EKS control plane |
+| `vpc_endpoint_security_group_id` | Security group ID for VPC endpoints |
+| `istio_security_group_id` | Security group ID for Istio service mesh |
+| `vpc_default_security_group_id` | Default VPC security group ID |
+| `vpc_endpoints` | Map of VPC endpoint IDs |
+| `vpc_endpoint_interface_dns_entries` | DNS entries for interface VPC endpoints |
+| `nlb_arn` | Network Load Balancer ARN |
+| `nlb_dns_name` | Network Load Balancer DNS name |
+| `nlb_zone_id` | Network Load Balancer hosted zone ID |
+| `nlb_target_group_arn` | NLB target group ARN |
+| `alb_arn` | Application Load Balancer ARN |
+| `alb_dns_name` | Application Load Balancer DNS name |
+| `alb_zone_id` | Application Load Balancer hosted zone ID |
+| `alb_security_group_id` | Security group ID for ALB |
+
 
 ## Usage
 
@@ -45,9 +123,6 @@ module "networking" {
 
   # Application ID
   app_id = "ecommerce"
-
-  # EKS cluster name - used for subnet tagging and auto-discovery
-  cluster_name = "production-cluster"
 
   # Environment: dev, staging, or prod
   env = "prod"
@@ -124,8 +199,24 @@ module "networking" {
   # Subnet IDs for NLB (default: uses public_subnets)
   # nlb_subnet_ids = ["subnet-xxx", "subnet-yyy"]
 
-  # Enable deletion protection for NLB (default: false)
+  # Enable deletion protection for NLB (default: true)
   nlb_deletion_protection = true
+
+  # ===================================
+  # Application Load Balancer (Optional)
+  # ===================================
+
+  # Create Application Load Balancer (default: false)
+  enable_alb = true
+
+  # Enable HTTP Listener (default: true)
+  alb_http_enabled = true
+
+  # Enable HTTPS Listener (default: true)
+  alb_https_enabled = true
+  
+  # ACM Certificate ARN for HTTPS listener
+  alb_certificate_arn = "arn:aws:acm:us-east-1:123456789012:certificate/..."
 
   # ===================================
   # Service Mesh Support (Optional)
@@ -145,159 +236,8 @@ module "networking" {
   # CloudWatch log retention in days (default: 7)
   # Valid values: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, etc.
   flow_logs_retention_days = 30
-
-  # ===================================
-  # Resource Tagging (Optional)
-  # ===================================
-
-  # Additional tags for all resources (default: {})
-  tags = {
-    Project     = "MyProject"
-    ManagedBy   = "Terraform"
-    CostCenter  = "Engineering"
-    Owner       = "platform-team"
-  }
-}
-
-# ===================================
-# Integration with EKS Module
-# ===================================
-
-module "eks" {
-  source = "github.com/orbitcluster/oc-terraform-module-eks"
-
-  cluster_name        = "production-cluster"
-  env                 = "prod"
-  vpc_id              = module.networking.vpc_id
-  routable_subnet_ids = module.networking.private_subnet_ids
-
-  # Optional: Attach EKS nodes to NLB target group
-  target_group_arns = module.networking.nlb_target_group_arn != null ? [
-    module.networking.nlb_target_group_arn
-  ] : []
-
-  extra_nodegroups = {
-    "default" = "t3.medium"
-  }
-}
-
-# ===================================
-# Useful Outputs
-# ===================================
-
-output "vpc_id" {
-  description = "VPC ID"
-  value       = module.networking.vpc_id
-}
-
-output "private_subnet_ids" {
-  description = "Private subnet IDs for EKS nodes"
-  value       = module.networking.private_subnet_ids
-}
-
-output "nlb_dns_name" {
-  description = "Network Load Balancer DNS name"
-  value       = module.networking.nlb_dns_name
-}
-
-output "vpc_endpoints" {
-  description = "Map of VPC endpoint IDs"
-  value       = module.networking.vpc_endpoints
-}
-
-output "nat_gateway_ips" {
-  description = "NAT Gateway public IPs for allowlist"
-  value       = module.networking.nat_gateway_public_ips
 }
 ```
-
-## Integration with EKS Module
-
-This module is designed to work seamlessly with the `oc-terraform-module-eks` module:
-
-```hcl
-# Step 1: Create networking infrastructure
-module "networking" {
-  source = "github.com/orbitcluster/oc-terraform-module-networking"
-
-  bu_id        = "finance"
-  app_id       = "payments"
-  cluster_name = "my-cluster"
-  env          = "prod"
-}
-
-# Step 2: Create EKS cluster using networking outputs
-module "eks" {
-  source = "github.com/orbitcluster/oc-terraform-module-eks"
-
-  cluster_name        = "my-cluster"
-  env                 = "prod"
-  vpc_id              = module.networking.vpc_id
-  routable_subnet_ids = module.networking.private_subnet_ids
-
-  # Optional: Use NLB target group
-  target_group_arns = module.networking.nlb_target_group_arn != null ? [
-    module.networking.nlb_target_group_arn
-  ] : []
-
-  extra_nodegroups = {
-    "default" = "t3.medium"
-  }
-}
-```
-
-## Cost Considerations
-
-### High Availability (Recommended for Production)
-
-```hcl
-single_nat_gateway = false  # NAT gateway in each AZ (~$32/month per NAT)
-enable_vpc_endpoints = true # Reduces NAT data transfer costs
-```
-
-### Cost-Optimized (Dev/Testing)
-
-```hcl
-single_nat_gateway = true   # Single NAT gateway (~$32/month total)
-enable_vpc_endpoints = false # No endpoint costs, higher NAT costs
-```
-
-**Note:** VPC endpoints have hourly charges (~$7/month per endpoint) but can significantly reduce NAT gateway data transfer costs in production environments.
-
-## Development
-
-### Pre-commit Hooks
-
-This repository uses [pre-commit](https://pre-commit.com/) to ensure code quality and security.
-
-1. **Install pre-commit**:
-   ```bash
-   pip install pre-commit
-   ```
-2. **Install hooks**:
-   ```bash
-   pre-commit install
-   ```
-3. **Run checks**:
-   ```bash
-   pre-commit run --all-files
-   ```
-
-## CI/CD
-
-This repository uses GitHub Actions for automated testing and release management.
-
-### Workflows
-
-- **CI**: Triggered on push to any branch and pull requests.
-  - Runs `terraform fmt -check`
-  - Runs `terraform validate`
-  - Runs security scanning with Checkov
-  - Validates terraform-docs
-
-- **Release**: Triggered on push to `main`.
-  - Uses [Semantic Release](https://github.com/semantic-release/semantic-release) to analyze commit messages
-  - Automatically creates a new version tag and GitHub release
 
 ## Subnet CIDR Calculation
 
@@ -320,9 +260,6 @@ If you don't specify subnet CIDRs, they will be auto-calculated from the VPC CID
 3. **Private Subnets** - Run EKS nodes in private subnets only
 4. **Security Groups** - Use provided security groups instead of wide-open rules
 5. **Multi-AZ** - Deploy across multiple AZs for high availability
-
-<!-- BEGIN_TF_DOCS -->
-<!-- END_TF_DOCS -->
 
 ## License
 
