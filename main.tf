@@ -1,7 +1,7 @@
 module "vpc" {
   # checkov:skip=CKV_TF_1:Using version tags for modules
   source  = "terraform-aws-modules/vpc/aws"
-  version = "~> 5.0"
+  version = "~> 5.5.0"
 
   name = "${var.bu_id}-${var.app_id}-vpc"
   cidr = var.vpc_cidr
