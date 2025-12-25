@@ -3,7 +3,6 @@ output "vpc_id" {
   description = "VPC ID for EKS module"
   value       = module.vpc.vpc_id
 }
-
 output "vpc_cidr" {
   description = "VPC CIDR block"
   value       = module.vpc.vpc_cidr_block
@@ -14,20 +13,17 @@ output "vpc_arn" {
   value       = module.vpc.vpc_arn
 }
 
+output "vpc_tags" {
+  description = "Tags applied to the VPC"
+  value = merge(local.common_tags, {
+    Name = "${var.bu_id}-${var.app_id}-vpc"
+  })
+}
+
 # Subnet outputs
 output "private_subnet_ids" {
   description = "List of private subnet IDs (for EKS nodes)"
   value       = module.vpc.private_subnets
-}
-
-output "public_subnet_ids" {
-  description = "List of public subnet IDs (for load balancers)"
-  value       = module.vpc.public_subnets
-}
-
-output "all_subnet_ids" {
-  description = "Combined list of all subnet IDs"
-  value       = concat(module.vpc.private_subnets, module.vpc.public_subnets)
 }
 
 output "private_subnet_cidrs" {

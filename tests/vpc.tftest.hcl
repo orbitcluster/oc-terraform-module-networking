@@ -35,7 +35,7 @@ run "vpc_defaults" {
   }
 
   assert {
-    condition     = module.vpc.nat_gateways != null
+    condition     = length(module.vpc.natgw_ids) > 0
     error_message = "NAT Gateways should be created by default"
   }
 }
