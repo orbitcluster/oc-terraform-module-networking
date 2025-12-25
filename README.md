@@ -214,7 +214,7 @@ module "networking" {
 
   # Enable HTTPS Listener (default: true)
   alb_https_enabled = true
-  
+
   # ACM Certificate ARN for HTTPS listener
   alb_certificate_arn = "arn:aws:acm:us-east-1:123456789012:certificate/..."
 
