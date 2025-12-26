@@ -3,7 +3,7 @@
 A comprehensive Terraform module for setting up AWS networking infrastructure required for EKS clusters. This module provides a one-stop solution for VPC, subnets, NAT gateways, security groups, VPC endpoints, and optional Network/Application Load Balancer configuration.
 
 <p align="center">
-  <img src="oc-module-networking-diagram.png" alt="Module Architecture - Networking">
+  <img src="images/oc-module-networking-diagram.png" alt="Module Architecture - Networking">
   <h4 align="center">Module Architecture - Networking</h4>
 </p>
 
@@ -35,76 +35,74 @@ This module implements the following AWS networking architecture:
 - **Optional Network Load Balancer** for TCP 443 traffic
 - **Optional Application Load Balancer** for HTTP/HTTPS traffic
 
-
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-| :--- | :--- | :--- | :--- | :--- |
-| `bu_id` | Business Unit | `string` | `null` | **yes** |
-| `app_id` | Application Unit | `string` | `null` | **yes** |
-| `env` | Environment name (dev, staging, prod) | `string` | n/a | **yes** |
-| `vpc_cidr` | CIDR block for VPC | `string` | `"10.0.0.0/16"` | no |
-| `azs` | Availability zones | `list(string)` | `[]` | no |
-| `private_subnets` | Private subnet CIDRs | `list(string)` | `[]` | no |
-| `public_subnets` | Public subnet CIDRs | `list(string)` | `[]` | no |
-| `enable_nat_gateway` | Enable NAT Gateway | `bool` | `true` | no |
-| `single_nat_gateway` | Use single NAT Gateway | `bool` | `false` | no |
-| `enable_dns_hostnames` | Enable DNS hostnames | `bool` | `true` | no |
-| `enable_dns_support` | Enable DNS support | `bool` | `true` | no |
-| `enable_vpn_gateway` | Enable VPN Gateway | `bool` | `false` | no |
-| `enable_flow_logs` | Enable VPC Flow Logs | `bool` | `false` | no |
-| `flow_logs_retention_days` | Flow logs retention days | `number` | `7` | no |
-| `enable_vpc_endpoints` | Enable VPC endpoints | `bool` | `true` | no |
-| `vpc_endpoints` | VPC endpoints map | `map(bool)` | `{...}` | no |
-| `enable_network_load_balancer` | Enable NLB | `bool` | `false` | no |
-| `nlb_subnet_ids` | NLB subnet IDs | `list(string)` | `[]` | no |
-| `nlb_deletion_protection` | NLB deletion protection | `bool` | `true` | no |
-| `nlb_access_logs_bucket_name` | NLB logs bucket | `string` | `null` | no |
-| `nlb_access_logs_prefix` | NLB logs prefix | `string` | `null` | no |
-| `enable_alb` | Enable ALB | `bool` | `false` | no |
-| `alb_subnet_ids` | ALB subnet IDs | `list(string)` | `[]` | no |
-| `alb_deletion_protection` | ALB deletion protection | `bool` | `true` | no |
-| `alb_access_logs_bucket_name` | ALB logs bucket | `string` | `null` | no |
-| `alb_access_logs_prefix` | ALB logs prefix | `string` | `null` | no |
-| `alb_http_enabled` | Enable ALB HTTP | `bool` | `true` | no |
-| `alb_https_enabled` | Enable ALB HTTPS | `bool` | `true` | no |
-| `alb_certificate_arn` | ALB Certificate ARN | `string` | `null` | no |
-| `alb_ingress_cidr_blocks` | ALB Ingress CIDRs | `list(string)` | `["0.0.0.0/0"]` | no |
-| `enable_istio_support` | Enable Istio support | `bool` | `false` | no |
-| `tags` | Additional tags | `map(string)` | `{}` | no |
+| Name                           | Description                           | Type           | Default         | Required |
+| :----------------------------- | :------------------------------------ | :------------- | :-------------- | :------- |
+| `bu_id`                        | Business Unit                         | `string`       | `null`          | **yes**  |
+| `app_id`                       | Application Unit                      | `string`       | `null`          | **yes**  |
+| `env`                          | Environment name (dev, staging, prod) | `string`       | n/a             | **yes**  |
+| `vpc_cidr`                     | CIDR block for VPC                    | `string`       | `"10.0.0.0/16"` | no       |
+| `azs`                          | Availability zones                    | `list(string)` | `[]`            | no       |
+| `private_subnets`              | Private subnet CIDRs                  | `list(string)` | `[]`            | no       |
+| `public_subnets`               | Public subnet CIDRs                   | `list(string)` | `[]`            | no       |
+| `enable_nat_gateway`           | Enable NAT Gateway                    | `bool`         | `true`          | no       |
+| `single_nat_gateway`           | Use single NAT Gateway                | `bool`         | `false`         | no       |
+| `enable_dns_hostnames`         | Enable DNS hostnames                  | `bool`         | `true`          | no       |
+| `enable_dns_support`           | Enable DNS support                    | `bool`         | `true`          | no       |
+| `enable_vpn_gateway`           | Enable VPN Gateway                    | `bool`         | `false`         | no       |
+| `enable_flow_logs`             | Enable VPC Flow Logs                  | `bool`         | `false`         | no       |
+| `flow_logs_retention_days`     | Flow logs retention days              | `number`       | `7`             | no       |
+| `enable_vpc_endpoints`         | Enable VPC endpoints                  | `bool`         | `true`          | no       |
+| `vpc_endpoints`                | VPC endpoints map                     | `map(bool)`    | `{...}`         | no       |
+| `enable_network_load_balancer` | Enable NLB                            | `bool`         | `false`         | no       |
+| `nlb_subnet_ids`               | NLB subnet IDs                        | `list(string)` | `[]`            | no       |
+| `nlb_deletion_protection`      | NLB deletion protection               | `bool`         | `true`          | no       |
+| `nlb_access_logs_bucket_name`  | NLB logs bucket                       | `string`       | `null`          | no       |
+| `nlb_access_logs_prefix`       | NLB logs prefix                       | `string`       | `null`          | no       |
+| `enable_alb`                   | Enable ALB                            | `bool`         | `false`         | no       |
+| `alb_subnet_ids`               | ALB subnet IDs                        | `list(string)` | `[]`            | no       |
+| `alb_deletion_protection`      | ALB deletion protection               | `bool`         | `true`          | no       |
+| `alb_access_logs_bucket_name`  | ALB logs bucket                       | `string`       | `null`          | no       |
+| `alb_access_logs_prefix`       | ALB logs prefix                       | `string`       | `null`          | no       |
+| `alb_http_enabled`             | Enable ALB HTTP                       | `bool`         | `true`          | no       |
+| `alb_https_enabled`            | Enable ALB HTTPS                      | `bool`         | `true`          | no       |
+| `alb_certificate_arn`          | ALB Certificate ARN                   | `string`       | `null`          | no       |
+| `alb_ingress_cidr_blocks`      | ALB Ingress CIDRs                     | `list(string)` | `["0.0.0.0/0"]` | no       |
+| `enable_istio_support`         | Enable Istio support                  | `bool`         | `false`         | no       |
+| `tags`                         | Additional tags                       | `map(string)`  | `{}`            | no       |
 
 ## Outputs
 
-| Name | Description |
-| :--- | :--- |
-| `vpc_id` | VPC ID |
-| `vpc_cidr` | VPC CIDR block |
-| `vpc_arn` | ARN of the VPC |
-| `vpc_tags` | Tags applied to the VPC |
-| `private_subnet_ids` | List of private subnet IDs |
-| `public_subnet_ids` | List of public subnet IDs |
-| `all_subnet_ids` | Combined list of all subnet IDs |
-| `private_subnet_cidrs` | List of private subnet CIDR blocks |
-| `public_subnet_cidrs` | List of public subnet CIDR blocks |
-| `nat_gateway_ids` | NAT Gateway IDs |
-| `nat_gateway_public_ips` | Elastic IPs of NAT Gateways |
-| `azs` | Availability zones used |
-| `node_security_group_id` | Security group ID for EKS nodes |
-| `control_plane_security_group_id` | Security group ID for EKS control plane |
-| `vpc_endpoint_security_group_id` | Security group ID for VPC endpoints |
-| `istio_security_group_id` | Security group ID for Istio service mesh |
-| `vpc_default_security_group_id` | Default VPC security group ID |
-| `vpc_endpoints` | Map of VPC endpoint IDs |
-| `vpc_endpoint_interface_dns_entries` | DNS entries for interface VPC endpoints |
-| `nlb_arn` | Network Load Balancer ARN |
-| `nlb_dns_name` | Network Load Balancer DNS name |
-| `nlb_zone_id` | Network Load Balancer hosted zone ID |
-| `nlb_target_group_arn` | NLB target group ARN |
-| `alb_arn` | Application Load Balancer ARN |
-| `alb_dns_name` | Application Load Balancer DNS name |
-| `alb_zone_id` | Application Load Balancer hosted zone ID |
-| `alb_security_group_id` | Security group ID for ALB |
-
+| Name                                 | Description                              |
+| :----------------------------------- | :--------------------------------------- |
+| `vpc_id`                             | VPC ID                                   |
+| `vpc_cidr`                           | VPC CIDR block                           |
+| `vpc_arn`                            | ARN of the VPC                           |
+| `vpc_tags`                           | Tags applied to the VPC                  |
+| `private_subnet_ids`                 | List of private subnet IDs               |
+| `public_subnet_ids`                  | List of public subnet IDs                |
+| `all_subnet_ids`                     | Combined list of all subnet IDs          |
+| `private_subnet_cidrs`               | List of private subnet CIDR blocks       |
+| `public_subnet_cidrs`                | List of public subnet CIDR blocks        |
+| `nat_gateway_ids`                    | NAT Gateway IDs                          |
+| `nat_gateway_public_ips`             | Elastic IPs of NAT Gateways              |
+| `azs`                                | Availability zones used                  |
+| `node_security_group_id`             | Security group ID for EKS nodes          |
+| `control_plane_security_group_id`    | Security group ID for EKS control plane  |
+| `vpc_endpoint_security_group_id`     | Security group ID for VPC endpoints      |
+| `istio_security_group_id`            | Security group ID for Istio service mesh |
+| `vpc_default_security_group_id`      | Default VPC security group ID            |
+| `vpc_endpoints`                      | Map of VPC endpoint IDs                  |
+| `vpc_endpoint_interface_dns_entries` | DNS entries for interface VPC endpoints  |
+| `nlb_arn`                            | Network Load Balancer ARN                |
+| `nlb_dns_name`                       | Network Load Balancer DNS name           |
+| `nlb_zone_id`                        | Network Load Balancer hosted zone ID     |
+| `nlb_target_group_arn`               | NLB target group ARN                     |
+| `alb_arn`                            | Application Load Balancer ARN            |
+| `alb_dns_name`                       | Application Load Balancer DNS name       |
+| `alb_zone_id`                        | Application Load Balancer hosted zone ID |
+| `alb_security_group_id`              | Security group ID for ALB                |
 
 ## Usage
 
@@ -244,6 +242,7 @@ module "networking" {
 If you don't specify subnet CIDRs, they will be auto-calculated from the VPC CIDR:
 
 **For VPC CIDR `10.0.0.0/16`:**
+
 - Private Subnets (each /19, 8,192 IPs):
   - AZ 1: `10.0.0.0/19`
   - AZ 2: `10.0.32.0/19`
