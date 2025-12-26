@@ -26,12 +26,15 @@ locals {
 
 
   # Public subnet tags for ELB
+  # We don't typically pass public subnets to eks, that's why we need to tag them
+  # EKS automatically discovers public subnets for Load Balancers using tags on the subnets
+  # (specifically kubernetes.io/role/elb = 1)
   public_subnet_tags = {
-      "kubernetes.io/role/elb" = "1"
-    }
+    "kubernetes.io/role/elb" = "1"
+  }
 
   # Private subnet tags for internal ELB
   private_subnet_tags = {
-      "kubernetes.io/role/internal-elb" = "1"
-    }
+    "kubernetes.io/role/internal-elb" = "1"
+  }
 }
