@@ -27,3 +27,4 @@ terraform.rc
 
 # Ignore lock file
 .terraform.lock.hcl
+.external_modules/
