@@ -17,9 +17,9 @@ locals {
   common_tags = merge(
     var.tags,
     {
-      Environment = var.env
-      bu_id       = var.bu_id
-      app_id      = var.app_id
+      env    = var.env
+      bu_id  = var.bu_id
+      app_id = var.app_id
     }
   )
 
