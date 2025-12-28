@@ -38,6 +38,11 @@ run "vpc_defaults" {
     condition     = length(module.vpc.natgw_ids) > 0
     error_message = "NAT Gateways should be created by default"
   }
+
+  assert {
+    condition     = length(module.vpc.private_route_table_ids) == 2
+    error_message = "Private route tables should be created for each private subnet (implicitly associating with NAT GW)"
+  }
 }
 
 run "vpc_cost_optimized" {
