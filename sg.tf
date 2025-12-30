@@ -102,8 +102,8 @@ resource "aws_vpc_security_group_ingress_rule" "control_plane_from_nodes" {
   )
 }
 
-# Allow egress to worker nodes
-resource "aws_vpc_security_group_egress_rule" "control_plane_to_nodes" {
+# Allow egress to worker nodes - HTTPS
+resource "aws_vpc_security_group_egress_rule" "control_plane_to_nodes_https" {
   security_group_id            = aws_security_group.eks_control_plane.id
   description                  = "Allow HTTPS to worker nodes"
   referenced_security_group_id = aws_security_group.eks_nodes.id
@@ -114,7 +114,24 @@ resource "aws_vpc_security_group_egress_rule" "control_plane_to_nodes" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-${var.app_id}-control-plane-to-nodes-sg"
+      Name = "${var.bu_id}-${var.app_id}-control-plane-to-nodes-https-sg"
+    }
+  )
+}
+
+# Allow egress to worker nodes - Kubelet and extension API servers
+resource "aws_vpc_security_group_egress_rule" "control_plane_to_nodes_kubelet" {
+  security_group_id            = aws_security_group.eks_control_plane.id
+  description                  = "Allow kubelet and extension API traffic to worker nodes"
+  referenced_security_group_id = aws_security_group.eks_nodes.id
+  from_port                    = 1025
+  to_port                      = 65535
+  ip_protocol                  = "tcp"
+
+  tags = merge(
+    local.common_tags,
+    {
+      Name = "${var.bu_id}-${var.app_id}-control-plane-to-nodes-kubelet-sg"
     }
   )
 }
