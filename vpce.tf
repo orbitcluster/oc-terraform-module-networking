@@ -41,6 +41,11 @@ locals {
       service_type        = "Interface"
       private_dns_enabled = true
     }
+    eks = {
+      service             = "eks"
+      service_type        = "Interface"
+      private_dns_enabled = true
+    }
     logs = {
       service             = "logs"
       service_type        = "Interface"
