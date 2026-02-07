@@ -1,9 +1,10 @@
 variables {
-  env      = "test"
-  bu_id    = "BU12345"
-  app_id   = "APP67890"
-  vpc_cidr = "10.0.0.0/16"
-  azs      = ["us-east-1a", "us-east-1b"]
+  env           = "test"
+  friendly_name = "test"
+  bu_id         = "BU12345"
+  app_id        = "APP67890"
+  vpc_cidr      = "10.0.0.0/16"
+  azs           = ["us-east-1a", "us-east-1b"]
 }
 
 run "sg_defaults" {
@@ -15,7 +16,7 @@ run "sg_defaults" {
   }
 
   assert {
-    condition     = startswith(aws_security_group.eks_nodes.name_prefix, "BU12345-APP67890-eks-nodes-sg-")
+    condition     = startswith(aws_security_group.eks_nodes.name_prefix, "test-BU12345-APP67890-eks-nodes-sg-")
     error_message = "EKS Nodes SG name prefix mismatch"
   }
 
@@ -43,7 +44,7 @@ run "sg_istio_enabled" {
   }
 
   assert {
-    condition     = startswith(aws_security_group.istio[0].name_prefix, "BU12345-APP67890-istio-sg-")
+    condition     = startswith(aws_security_group.istio[0].name_prefix, "test-BU12345-APP67890-istio-sg-")
     error_message = "Istio SG name prefix mismatch"
   }
 }
@@ -61,7 +62,7 @@ run "sg_alb_enabled" {
   }
 
   assert {
-    condition     = startswith(aws_security_group.alb[0].name_prefix, "BU12345-APP67890-alb-sg-")
+    condition     = startswith(aws_security_group.alb[0].name_prefix, "test-BU12345-APP67890-alb-sg-")
     error_message = "ALB SG name prefix mismatch"
   }
 }

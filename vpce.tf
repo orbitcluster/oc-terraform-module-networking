@@ -94,7 +94,7 @@ resource "aws_vpc_endpoint" "interface" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-${var.app_id}-${each.key}-endpoint"
+      Name = "${var.friendly_name}-${var.bu_id}-${var.app_id}-${each.key}-endpoint"
     }
   )
 }
@@ -115,7 +115,7 @@ resource "aws_vpc_endpoint" "gateway" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-${var.app_id}-${each.key}-endpoint"
+      Name = "${var.friendly_name}-${var.bu_id}-${var.app_id}-${each.key}-endpoint"
     }
   )
 }

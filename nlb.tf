@@ -2,7 +2,7 @@
 resource "aws_lb" "network" {
   count = var.enable_network_load_balancer ? 1 : 0
 
-  name               = "${var.bu_id}-${var.app_id}-nlb"
+  name               = "${var.friendly_name}-${var.bu_id}-${var.app_id}-nlb"
   load_balancer_type = "network"
   internal           = false
 
@@ -23,7 +23,7 @@ resource "aws_lb" "network" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-${var.app_id}-nlb"
+      Name = "${var.friendly_name}-${var.bu_id}-${var.app_id}-nlb"
     }
   )
 }
@@ -32,7 +32,7 @@ resource "aws_lb" "network" {
 resource "aws_lb_target_group" "network" {
   count = var.enable_network_load_balancer ? 1 : 0
 
-  name     = "${var.bu_id}-${var.app_id}-nlb-tg"
+  name     = "${var.friendly_name}-${var.bu_id}-${var.app_id}-nlb-tg"
   port     = 443
   protocol = "TCP"
   vpc_id   = module.vpc.vpc_id
@@ -51,7 +51,7 @@ resource "aws_lb_target_group" "network" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-${var.app_id}-nlb-tg"
+      Name = "${var.friendly_name}-${var.bu_id}-${var.app_id}-nlb-tg"
     }
   )
 }
@@ -72,7 +72,7 @@ resource "aws_lb_listener" "network" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.bu_id}-${var.app_id}-nlb-listener"
+      Name = "${var.friendly_name}-${var.bu_id}-${var.app_id}-nlb-listener"
     }
   )
 }

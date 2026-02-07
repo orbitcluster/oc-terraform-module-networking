@@ -1,16 +1,17 @@
 variables {
-  env      = "test"
-  bu_id    = "BU12345"
-  app_id   = "APP67890"
-  vpc_cidr = "10.0.0.0/16"
-  azs      = ["us-east-1a", "us-east-1b"]
+  env           = "test"
+  friendly_name = "test"
+  bu_id         = "BU12345"
+  app_id        = "APP67890"
+  vpc_cidr      = "10.0.0.0/16"
+  azs           = ["us-east-1a", "us-east-1b"]
 }
 
 run "vpc_defaults" {
   command = plan
 
   assert {
-    condition     = module.vpc.name == "BU12345-APP67890-vpc"
+    condition     = module.vpc.name == "test-BU12345-APP67890-vpc"
     error_message = "VPC name did not match expected value"
   }
 
@@ -20,7 +21,7 @@ run "vpc_defaults" {
   }
 
   assert {
-    condition     = output.vpc_tags["Name"] == "BU12345-APP67890-vpc"
+    condition     = output.vpc_tags["Name"] == "test-BU12345-APP67890-vpc"
     error_message = "VPC Name tag is incorrect"
   }
 

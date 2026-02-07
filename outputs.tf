@@ -16,7 +16,7 @@ output "vpc_arn" {
 output "vpc_tags" {
   description = "Tags applied to the VPC"
   value = merge(local.common_tags, {
-    Name = "${var.bu_id}-${var.app_id}-vpc"
+    Name = "${var.friendly_name}-${var.bu_id}-${var.app_id}-vpc"
   })
 }
 

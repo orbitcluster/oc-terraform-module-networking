@@ -1,9 +1,10 @@
 variables {
-  env      = "test"
-  bu_id    = "BU12345"
-  app_id   = "APP67890"
-  vpc_cidr = "10.0.0.0/16"
-  azs      = ["us-east-1a", "us-east-1b"]
+  env           = "test"
+  friendly_name = "test"
+  bu_id         = "BU12345"
+  app_id        = "APP67890"
+  vpc_cidr      = "10.0.0.0/16"
+  azs           = ["us-east-1a", "us-east-1b"]
 }
 
 run "endpoints_defaults" {
