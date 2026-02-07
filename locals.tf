@@ -31,12 +31,12 @@ locals {
   # (specifically kubernetes.io/role/elb = 1)
   public_subnet_tags = {
     "kubernetes.io/role/elb" = "1"
-    "kubernetes.io/cluster/${var.bu_id}-${var.app_id}-eks" = "shared"
+    "kubernetes.io/cluster/${var.friendly_name}-${var.bu_id}-${var.app_id}-eks" = "shared"
   }
 
   # Private subnet tags for internal ELB
   private_subnet_tags = {
     "kubernetes.io/role/internal-elb" = "1"
-    "kubernetes.io/cluster/${var.bu_id}-${var.app_id}-eks" = "shared"
+    "kubernetes.io/cluster/${var.friendly_name}-${var.bu_id}-${var.app_id}-eks" = "shared"
   }
 }

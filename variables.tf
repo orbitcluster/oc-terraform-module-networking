@@ -13,6 +13,11 @@ variable "app_id" {
   default     = null
 }
 
+variable "friendly_name" {
+  description = "Friendly name prefix for resources (e.g., 'allhub', 'devspoke'). Used in resource naming and EKS cluster identification."
+  type        = string
+}
+
 ####################################################
 # VPC INFO#
 
