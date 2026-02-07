@@ -1,5 +1,6 @@
 variables {
   env                          = "test"
+  friendly_name                = "test"
   bu_id                        = "BU12345"
   app_id                       = "APP67890"
   vpc_cidr                     = "10.0.0.0/16"
@@ -16,7 +17,7 @@ run "nlb_verification" {
   }
 
   assert {
-    condition     = aws_lb.network[0].name == "BU12345-APP67890-nlb"
+    condition     = aws_lb.network[0].name == "test-BU12345-APP67890-nlb"
     error_message = "NLB name mismatch"
   }
 
@@ -31,7 +32,7 @@ run "nlb_verification" {
   }
 
   assert {
-    condition     = aws_lb.network[0].tags["Name"] == "BU12345-APP67890-nlb"
+    condition     = aws_lb.network[0].tags["Name"] == "test-BU12345-APP67890-nlb"
     error_message = "NLB Name tag mismatch"
   }
 }
